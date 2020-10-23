@@ -56,8 +56,9 @@
     "prettier": "^2.1.2"
   },
   "lint-staged": {
-    "src/**/*.{tsx,ts}": [
-      "npm run prettier"
+    "**/*.{tsx,ts}": [
+      "prettier --write",
+      "git add"
     ]
   },
   "husky": {
