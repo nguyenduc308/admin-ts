@@ -57,8 +57,7 @@
   },
   "lint-staged": {
     "**/*.{tsx,ts}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "husky": {
