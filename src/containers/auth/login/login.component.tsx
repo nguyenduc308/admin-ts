@@ -2,21 +2,26 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { IRegisterRequest } from 'models/auth.model';
-import { AuthPageWrapper, FormAuthWrapper } from 'components/styled/FormAuthWrapper';
+import { ILoginRequest } from 'models/auth.model';
+import {
+    AuthPageWrapper,
+    FormAuthWrapper,
+    FromAuthFooterWrapper,
+} from 'containers/auth/form-auth.styled';
 
 import inputStyle from 'styles/util-modules/input.module.scss';
 import buttonStyle from 'styles/util-modules/button.module.scss';
 import { useTranslation } from 'react-i18next';
+import { REGISTER } from 'constants/paths';
+import { Link } from 'react-router-dom';
 
-interface IRegisterProps {}
+interface ILoginProps {}
 
-const Register: React.FunctionComponent<IRegisterProps> = () => {
+const Login: React.FunctionComponent<ILoginProps> = () => {
     const [t] = useTranslation();
-    const initialValues: IRegisterRequest = {
+    const initialValues: ILoginRequest = {
         email: '',
         password: '',
-        confirmPassword: '',
     };
     const validationSchema = Yup.object().shape({
         email: Yup.string().email().required(),
@@ -36,7 +41,7 @@ const Register: React.FunctionComponent<IRegisterProps> = () => {
     return (
         <AuthPageWrapper>
             <FormAuthWrapper>
-                <h1>{t('auth.register.title')}</h1>
+                <h1>{t('auth.login.title')}</h1>
                 <form onSubmit={formik.handleSubmit}>
                     <div className={inputStyle.form_group}>
                         <label htmlFor="email">Email</label>
@@ -58,22 +63,17 @@ const Register: React.FunctionComponent<IRegisterProps> = () => {
                             autoComplete="off"
                         />
                     </div>
-                    <div className={inputStyle.form_group}>
-                        <label htmlFor="confirm-password">Confirm Password</label>
-                        <input
-                            className={inputStyle.form_control}
-                            id="confirm-password"
-                            name="confirmPassword"
-                            placeholder="Nhập lại mật khẩu"
-                            autoComplete="off"
-                        />
-                    </div>
-                    <button className={buttonStyle.btn_primary} type="submit">
-                        Đăng ký
-                    </button>
+                    <FromAuthFooterWrapper>
+                        <div>
+                            <Link to={REGISTER}>Register</Link>
+                        </div>
+                        <button className={buttonStyle.btn_primary} type="submit">
+                            Đăng nhập
+                        </button>
+                    </FromAuthFooterWrapper>
                 </form>
             </FormAuthWrapper>
         </AuthPageWrapper>
     );
 };
-export default Register;
+export default Login;
