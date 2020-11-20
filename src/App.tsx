@@ -1,20 +1,33 @@
 import { TOKEN_KEY } from 'constants/globalConstants';
+import { IAppState } from 'models/store.model';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppRoutes from 'routes';
-import { appStored } from 'services';
-import { verifyTokenAction } from 'store/actions/auth.action';
+import { LogoutAction, NotAuthAction, VerifyTokenAction } from 'store/actions/auth.action';
 
 interface IAppProps {}
 
 const App: React.FC<IAppProps> = () => {
     const dispatch = useDispatch();
-    const token = appStored.getItem<string | null>(TOKEN_KEY);
+    const { isAuth, user } = useSelector((state: IAppState) => state.auth);
+    let token = localStorage.getItem(TOKEN_KEY);
+    let timmerId: any;
     React.useEffect(() => {
-        if (token) {
-            dispatch(verifyTokenAction(token));
+        if (isAuth) {
+            const timeToExpired = user.exp * 1000;
+            timmerId = setTimeout(() => {
+                localStorage.removeItem(TOKEN_KEY);
+                dispatch({ ...new LogoutAction(null) });
+            }, timeToExpired);
+            return;
         }
-    }, [token, dispatch]);
+        if (!!token && !isAuth) {
+            dispatch({ ...new VerifyTokenAction(token) });
+        }
+        if (!token) {
+            dispatch({ ...new NotAuthAction(null) });
+        }
+    }, [token, dispatch, isAuth]);
     return (
         <React.Fragment>
             <AppRoutes />

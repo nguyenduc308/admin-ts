@@ -23,7 +23,7 @@ const routes: IRoute[] = [
         uuid: uuid(),
     },
     {
-        path: paths.HOMEPAGE,
+        path: paths.HOMEPAGE_PATH,
         exact: false,
         component: Home,
         isPrivate: true,

@@ -3,12 +3,19 @@ export interface ILoginRequest {
     password: string;
 }
 export interface ILoginResponse {
-    jwt: string;
-    user: any;
+    access_token: string;
 }
 
 export interface IRegisterRequest {
     email: string;
     password: string;
     confirmPassword: string;
+}
+
+export interface IAuthState {
+    user: any | null;
+    token: string | null;
+    isAuth: boolean;
+    isLoading?: boolean;
+    error?: string | null;
 }

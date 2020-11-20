@@ -5,7 +5,7 @@ import { rootSaga } from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
-export default function configureStore(initialState = {}): Store {
+export default function configureStore(initialState = {}): Store<any> {
     const middlewares = [sagaMiddleware];
     const enhancers = [applyMiddleware(...middlewares)];
     /* eslint-disable no-underscore-dangle */
@@ -20,7 +20,11 @@ export default function configureStore(initialState = {}): Store {
             : compose;
     /* eslint-enable */
 
-    const store = createStore(rootReducer, initialState, composeEnhancers(...enhancers));
+    const store = createStore<any, any, any, any>(
+        rootReducer,
+        initialState,
+        composeEnhancers(...enhancers),
+    );
     sagaMiddleware.run(rootSaga);
 
     return store;

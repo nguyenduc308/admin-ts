@@ -1,38 +1,34 @@
-import { loginApi } from 'apis/auth-api';
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { LOGIN, AUTH_SUCCESS, AUTH_FAILED, VERIFY_TOKEN } from 'store/action-types/auth';
+import { loginApi, verifyTokenApi } from 'apis/auth-api';
+import { ReduxCoreAction } from 'models/store.model';
+import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { EAuthActionTypes, LoginFailAction, LoginSuccessAction } from 'store/actions/auth.action';
+import jwt_decode from 'jwt-decode';
+import { TOKEN_KEY } from 'constants/globalConstants';
 
-function* loginFlow(action: ActionRedux) {
+function* loginFlow(action: ReduxCoreAction) {
     try {
-        const { token, user } = yield call(loginApi, action.payload);
-        put({
-            type: AUTH_SUCCESS,
-            payload: { token, user },
-        });
+        const { access_token } = yield call(loginApi, action.payload);
+        localStorage.setItem(TOKEN_KEY, access_token);
+        const user = jwt_decode(access_token);
+        yield put({ ...new LoginSuccessAction({ access_token, user }) });
     } catch (error) {
-        put({
-            type: AUTH_FAILED,
-            payload: error,
-        });
+        yield put({ ...new LoginFailAction('Đăng nhập thất bại') });
     }
 }
 
-function* verifyToken(action: ActionRedux) {
+function* verifyToken(action: ReduxCoreAction) {
     try {
-        const { token, user } = yield call(loginApi, action.payload);
-        put({
-            type: AUTH_SUCCESS,
-            payload: { token, user },
-        });
+        const { access_token } = yield call(verifyTokenApi, action.payload);
+        const user = jwt_decode(access_token);
+        yield delay(800);
+        yield put({ ...new LoginSuccessAction({ access_token, user }) });
     } catch (error) {
-        put({
-            type: AUTH_FAILED,
-            payload: error,
-        });
+        localStorage.removeItem(TOKEN_KEY);
+        yield put({ ...new LoginFailAction('') });
     }
 }
 
 export function* authWatcher() {
-    yield takeLatest(LOGIN, loginFlow);
-    yield takeLatest(VERIFY_TOKEN, verifyToken);
+    yield takeLatest(EAuthActionTypes.LOGIN, loginFlow);
+    yield takeLatest(EAuthActionTypes.VERIFY_TOKEN, verifyToken);
 }

@@ -14,28 +14,32 @@ import buttonStyle from 'styles/util-modules/button.module.scss';
 import { useTranslation } from 'react-i18next';
 import { REGISTER } from 'constants/paths';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { LoginRequestAction } from 'store/actions/auth.action';
+import { useNotAuth } from 'hooks';
 
 interface ILoginProps {}
 
 const Login: React.FunctionComponent<ILoginProps> = () => {
+    useNotAuth();
     const [t] = useTranslation();
     const initialValues: ILoginRequest = {
-        email: '',
-        password: '',
+        email: 'duc.lux47@gmail.com',
+        password: '123123',
     };
+    const dispatch = useDispatch();
     const validationSchema = Yup.object().shape({
         email: Yup.string().email().required(),
         password: Yup.string().required(),
-        confirmPassword: Yup.string().required(),
     });
     const formik = useFormik({
         initialValues,
         validationSchema,
         validate: (e) => {
-            console.log(e);
+            // console.log(e);
         },
         onSubmit: (values, action) => {
-            console.log(values, action);
+            dispatch({ ...new LoginRequestAction(values) });
         },
     });
     return (
@@ -47,6 +51,8 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
                         <label htmlFor="email">Email</label>
                         <input
                             className={inputStyle.form_control}
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
                             id="email"
                             name="email"
                             placeholder="Nhập email"
@@ -57,6 +63,8 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
                         <label htmlFor="password">Password</label>
                         <input
                             className={inputStyle.form_control}
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
                             id="password"
                             name="password"
                             placeholder="Nhập mật khẩu"

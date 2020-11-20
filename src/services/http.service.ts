@@ -9,7 +9,7 @@ class HttpService {
         });
         this.interceptor();
     }
-    public registered(token: string) {
+    public registerBearerToken(token: string) {
         this.service.defaults.headers.common['Authorization'] = `Brearer ${token}`;
     }
     private interceptor() {
