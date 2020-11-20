@@ -6,6 +6,7 @@ import { Login, Register } from 'containers/auth';
 import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from 'HOC/private-route.component';
 import { uuid } from 'helpers';
+import { CreateBlog } from 'containers/blogs';
 
 const routes: IRoute[] = [
     {
@@ -24,8 +25,15 @@ const routes: IRoute[] = [
     },
     {
         path: paths.HOMEPAGE_PATH,
-        exact: false,
+        exact: true,
         component: Home,
+        isPrivate: true,
+        uuid: uuid(),
+    },
+    {
+        path: paths.BLOG_CREATE_PATH,
+        exact: false,
+        component: CreateBlog,
         isPrivate: true,
         uuid: uuid(),
     },

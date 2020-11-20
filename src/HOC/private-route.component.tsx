@@ -1,3 +1,4 @@
+import LayoutWithSidebarComponent from 'components/layout/layout-with-sidebar.component';
 import { LOGIN } from 'constants/paths';
 import { IAppState } from 'models/store.model';
 import React from 'react';
@@ -17,7 +18,12 @@ const PrivateRoute: React.FC<IPrivateRoute> = ({ component: Component, ...rest }
                     return <div>Verifing....</div>;
                 }
                 if (isAuth) {
-                    return <Component {...props} />;
+                    return (
+                        <LayoutWithSidebarComponent
+                            component={Component}
+                            {...props}
+                        ></LayoutWithSidebarComponent>
+                    );
                 }
                 return <Redirect to={LOGIN} />;
             }}

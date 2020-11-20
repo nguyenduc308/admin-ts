@@ -1,6 +1,6 @@
 import { TOKEN_KEY } from 'constants/globalConstants';
 import { IAppState } from 'models/store.model';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppRoutes from 'routes';
 import { LogoutAction, NotAuthAction, VerifyTokenAction } from 'store/actions/auth.action';
@@ -11,13 +11,14 @@ const App: React.FC<IAppProps> = () => {
     const dispatch = useDispatch();
     const { isAuth, user } = useSelector((state: IAppState) => state.auth);
     let token = localStorage.getItem(TOKEN_KEY);
-    let timmerId: any;
+    let timerId = useRef<undefined | number>();
     React.useEffect(() => {
-        if (isAuth) {
-            const timeToExpired = user.exp * 1000;
-            timmerId = setTimeout(() => {
+        if (isAuth && user) {
+            const timeToExpired = user.exp * 1000 - Date.now();
+            timerId.current = setTimeout(() => {
                 localStorage.removeItem(TOKEN_KEY);
                 dispatch({ ...new LogoutAction(null) });
+                console.log('%c Auto Logout!', 'color: red');
             }, timeToExpired);
             return;
         }
@@ -27,7 +28,15 @@ const App: React.FC<IAppProps> = () => {
         if (!token) {
             dispatch({ ...new NotAuthAction(null) });
         }
-    }, [token, dispatch, isAuth]);
+        if (!isAuth && timerId) {
+            clearTimeout(timerId.current);
+        }
+        return () => {
+            if (timerId) {
+                clearTimeout(timerId.current);
+            }
+        };
+    }, [token, dispatch, isAuth, user]);
     return (
         <React.Fragment>
             <AppRoutes />

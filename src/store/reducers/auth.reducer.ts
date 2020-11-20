@@ -30,8 +30,8 @@ const authReducer = (state: IAuthState = initialState, action: AuthActionTypes):
             return {
                 ...state,
                 isLoading: false,
-                isAuth: true,
                 user: action.payload.user,
+                isAuth: true,
                 token: action.payload.access_token,
             };
         case EAuthActionTypes.AUTH_FAILED:

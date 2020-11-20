@@ -9,5 +9,10 @@
         "form": {
             "email-placeholder": "Enter your mail"
         }
+    },
+    "blogs": {
+        "create": {
+            "title": "Create a blog"
+        }
     }
 }
