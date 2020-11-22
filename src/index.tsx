@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './app';
 import reportWebVitals from './reportWebVitals';
-import store from 'store/configureStore';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 
+import store from 'store/configureStore';
+
 import './styles/main.scss';
 import './i18n';
+import { CircleSpinner } from 'shared/components/spinner';
 
 ReactDOM.render(
     <Provider store={store()}>
         <BrowserRouter>
-            <Route path="/" component={App} />
+            <Suspense fallback={<CircleSpinner />}>
+                <Route path="/" component={App} />
+            </Suspense>
         </BrowserRouter>
     </Provider>,
     document.getElementById('root'),

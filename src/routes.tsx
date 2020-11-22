@@ -1,39 +1,46 @@
 import React, { Fragment } from 'react';
-import { Home } from 'containers/home';
-import { IRoute } from 'models/router.model';
+import { IRoute } from 'shared/models/router.model';
 import * as paths from 'constants/paths';
-import { Login, Register } from 'containers/auth';
+import { Login, Register } from 'pages/auth';
 import { Route, Switch } from 'react-router-dom';
-import PrivateRoute from 'HOC/private-route.component';
-import { uuid } from 'helpers';
-import { CreateBlog } from 'containers/blogs';
+import PrivateRoute from 'shared/HOC/private-route.component';
+import { uuid } from 'shared/helpers';
+import { CreateBlog, ListBlogs } from 'pages/blogs';
+import { Home } from 'pages/home';
 
 const routes: IRoute[] = [
     {
         path: paths.REGISTER,
         exact: true,
-        component: Register,
+        component: React.lazy(() => import('./pages/auth/register/register.component')),
         isPrivate: false,
         uuid: uuid(),
     },
     {
         path: paths.LOGIN,
         exact: false,
-        component: Login,
+        component: React.lazy(() => import('./pages/auth/login/login.component')),
         isPrivate: false,
         uuid: uuid(),
     },
     {
         path: paths.HOMEPAGE_PATH,
         exact: true,
-        component: Home,
+        component: React.lazy(() => import('./pages/home/home.component')),
+        isPrivate: true,
+        uuid: uuid(),
+    },
+    {
+        path: paths.LIST_BLOGS_PATH,
+        exact: true,
+        component: React.lazy(() => import('./pages/blogs/list-blogs/list-blogs.component')),
         isPrivate: true,
         uuid: uuid(),
     },
     {
         path: paths.BLOG_CREATE_PATH,
         exact: false,
-        component: CreateBlog,
+        component: React.lazy(() => import('./pages/blogs/create-blog/create-blog.component')),
         isPrivate: true,
         uuid: uuid(),
     },

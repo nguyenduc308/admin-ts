@@ -1,5 +1,5 @@
-import { ReduxCoreAction } from 'models/store.model';
-import { ILoginRequest, ILoginResponse } from 'models/auth.model';
+import { ILoginRequest, ILoginResponse } from 'shared/models/auth.model';
+import { Action } from 'redux';
 export enum EAuthActionTypes {
     VERIFY_TOKEN = '[Auth] Verify Token Request',
     LOGIN = '[Auth] Login Request',
@@ -14,25 +14,28 @@ export enum EAuthActionTypes {
     // export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
     // export const REGISTER_FAILED = 'REGISTER_SUCCESS';
 }
-export class VerifyTokenAction extends ReduxCoreAction<string> {
+export class VerifyTokenAction implements Action<string> {
     type = EAuthActionTypes.VERIFY_TOKEN;
+    constructor(public payload: string) {}
 }
-export class LoginRequestAction extends ReduxCoreAction<ILoginRequest> {
+export class LoginRequestAction implements Action<string> {
     type = EAuthActionTypes.LOGIN;
+    constructor(public payload: ILoginRequest) {}
 }
 
-export class LoginSuccessAction extends ReduxCoreAction<ILoginResponse & { user: any }> {
+export class LoginSuccessAction implements Action<string> {
     type = EAuthActionTypes.AUTH_SUCCESS;
+    constructor(public payload: ILoginResponse & { user: any }) {}
 }
 
-export class LoginFailAction extends ReduxCoreAction<any> {
+export class LoginFailAction implements Action<string> {
     type = EAuthActionTypes.AUTH_FAILED;
 }
-export class NotAuthAction extends ReduxCoreAction<any> {
+export class NotAuthAction implements Action<string> {
     type = EAuthActionTypes.NOT_AUTH;
 }
 
-export class LogoutAction extends ReduxCoreAction<any> {
+export class LogoutAction implements Action<string> {
     type = EAuthActionTypes.LOGOUT;
 }
 
@@ -41,4 +44,5 @@ export type AuthActionTypes =
     | VerifyTokenAction
     | LoginSuccessAction
     | LoginFailAction
-    | NotAuthAction;
+    | NotAuthAction
+    | LogoutAction;
