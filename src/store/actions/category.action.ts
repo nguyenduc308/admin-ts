@@ -20,10 +20,10 @@ export class CreateCategoryRequestAction extends BaseAction<ICreateCategoryReque
     readonly type = ECategoryActionTypes.CREATE_CATEGORY_REQUEST;
 }
 export class CreateCategorySuccessAction extends BaseAction<ICreateCategoryRequest> {
-    readonly type = ECategoryActionTypes.CREATE_CATEGORY_REQUEST;
+    readonly type = ECategoryActionTypes.CREATE_CATEGORY_SUCCESS;
 }
 export class CreateCategoryFailedAction extends BaseAction<ICreateCategoryRequest> {
-    readonly type = ECategoryActionTypes.CREATE_CATEGORY_REQUEST;
+    readonly type = ECategoryActionTypes.CREATE_CATEGORY_FAILED;
 }
 
 export type CategoryActionTypes =

@@ -27,26 +27,37 @@ const CategoriesComponent: React.FC<ICategoriesProps> = () => {
     });
 
     const dispatch = useDispatch();
-
+    const [creatingCategory, setCreatingCategory] = useState(false);
     const formik = useFormik({
         initialValues,
         validationSchema,
-        validate: (e) => {
-            console.log(formik.isValid);
-        },
+        validate: (e) => {},
         onSubmit: (values, action) => {
-            dispatch(new CreateCategoryRequestAction(values));
+            setCreatingCategory(true);
+            const dispatched = dispatch(new CreateCategoryRequestAction(values));
+            dispatched.onSuccess = function (data: any) {
+                setOpenModal(false);
+                setCreatingCategory(false);
+            };
+            dispatched.onError = function (data: any) {
+                console.log('Error');
+                setCreatingCategory(false);
+            };
         },
     });
 
     useEffect(() => {
         dispatch(new FetchCategoriesAction());
-    }, []);
-    const createCategoryButtonClassName = classNames({
-        [categoryStyles.button_add]: true,
-        [btnStyles.btn_primary]: formik.dirty && formik.isValid,
-        [btnStyles.btn_disabled]: !(formik.dirty && formik.isValid),
-    });
+    }, [dispatch]);
+    const createCategoryButtonClassName = useMemo(
+        () =>
+            classNames({
+                [categoryStyles.button_add]: true,
+                [btnStyles.btn_primary]: formik.dirty && formik.isValid,
+                [btnStyles.btn_disabled]: !(formik.dirty && formik.isValid) || creatingCategory,
+            }),
+        [formik.dirty, formik.isValid, creatingCategory],
+    );
 
     return (
         <>

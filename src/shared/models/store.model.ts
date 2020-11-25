@@ -9,5 +9,5 @@ export interface IAppState {
 
 export class BaseAction<T = any> implements Action {
     readonly type: string;
-    constructor(public payload?: T) {}
+    constructor(public payload?: T, public onSuccess?: Function, public onError?: Function) {}
 }

@@ -19,9 +19,14 @@ function* getCategoriesFlow(action: FetchCategoriesAction) {
 }
 function* createCategoryFlow(action: CreateCategoryRequestAction) {
     try {
-        const xhr = yield call(createCategoryApi, action.payload);
-        console.log(xhr);
-    } catch (error) {}
+        const resp = yield call(createCategoryApi, action.payload);
+
+        if (resp) {
+            action.onSuccess(resp);
+        }
+    } catch (error) {
+        action.onError(error);
+    }
 }
 
 export function* categoriesWatcher() {

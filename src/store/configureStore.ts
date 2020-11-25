@@ -2,19 +2,19 @@ import { applyMiddleware, compose, createStore, Store } from 'redux';
 import { rootReducer } from './reducers';
 import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './sagas';
-import { BaseAction } from 'shared/models/store.model';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const tranformPlainObjectMiddlware = (store: any) => (next: any) => (action: any) => {
+const transformPlainObjectMiddlware = (store: any) => (next: any) => (action: any) => {
     if (!!action && typeof action === 'object') {
-        return next({ ...action });
+        const { onSuccess, onError, ...plainObject } = action;
+        return next({ ...plainObject });
     }
     throw new Error('Action must be plain object');
 };
 
 export default function configureStore(initialState = {}): Store<any> {
-    const middlewares = [tranformPlainObjectMiddlware, sagaMiddleware];
+    const middlewares = [transformPlainObjectMiddlware, sagaMiddleware];
     const enhancers = [applyMiddleware(...middlewares)];
     /* eslint-disable no-underscore-dangle */
     const composeEnhancers =
@@ -28,7 +28,11 @@ export default function configureStore(initialState = {}): Store<any> {
             : compose;
     /* eslint-enable */
 
-    const store = createStore(rootReducer, initialState, composeEnhancers(...enhancers));
+    const store = createStore<any, any, any, any>(
+        rootReducer,
+        initialState,
+        composeEnhancers(...enhancers),
+    );
     sagaMiddleware.run(rootSaga);
 
     return store;
