@@ -1,4 +1,3 @@
-import { ReduxAction } from 'shared/models/store.model';
 import { IAuthState } from 'shared/models/auth.model';
 import { AuthActionTypes, EAuthActionTypes } from 'store/actions/auth.action';
 
@@ -9,7 +8,7 @@ const initialState: IAuthState = {
     isLoading: true,
     error: null,
 };
-const authReducer = (state: IAuthState = initialState, action: any): IAuthState => {
+const authReducer = (state: IAuthState = initialState, action: AuthActionTypes): IAuthState => {
     switch (action.type) {
         case EAuthActionTypes.NOT_AUTH:
             return {
@@ -39,7 +38,6 @@ const authReducer = (state: IAuthState = initialState, action: any): IAuthState 
                 ...state,
                 isLoading: false,
                 isAuth: false,
-                error: action.payload,
             };
         case EAuthActionTypes.LOGOUT:
             return {

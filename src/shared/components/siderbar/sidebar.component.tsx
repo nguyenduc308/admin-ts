@@ -3,6 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { SidebarWrapper, LinkListWrapper, LinkItemWrapper } from './sidebar.styled';
 import styles from './sidebar.module.scss';
+import { BLOG_CREATE_PATH, CATEGORIES_PATH, HOMEPAGE_PATH, LIST_BLOGS_PATH } from 'constants/paths';
 
 export interface ISidebarProps {}
 
@@ -10,17 +11,22 @@ const SidebarComponent: React.FC<ISidebarProps> = () => {
     const paths = [
         {
             label: 'HomePage',
-            path: '/',
+            path: HOMEPAGE_PATH,
             id: uuid(),
         },
         {
             label: 'List Blogs',
-            path: '/blogs',
+            path: LIST_BLOGS_PATH,
             id: uuid(),
         },
         {
             label: 'Create new blog',
-            path: '/blogs/create',
+            path: BLOG_CREATE_PATH,
+            id: uuid(),
+        },
+        {
+            label: 'Categories',
+            path: CATEGORIES_PATH,
             id: uuid(),
         },
     ];

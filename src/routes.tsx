@@ -44,6 +44,13 @@ const routes: IRoute[] = [
         isPrivate: true,
         uuid: uuid(),
     },
+    {
+        path: paths.CATEGORIES_PATH,
+        exact: false,
+        component: React.lazy(() => import('./pages/categories/categories.component')),
+        isPrivate: true,
+        uuid: uuid(),
+    },
 ];
 
 const AppRoutes: React.FC = () => {

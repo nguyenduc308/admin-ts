@@ -10,7 +10,7 @@ class HttpService {
         this.interceptor();
     }
     public registerBearerToken(token: string) {
-        this.service.defaults.headers.common['Authorization'] = `Brearer ${token}`;
+        this.service.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
     private interceptor() {
         this.service.interceptors.response.use(this.handleSuccess, this.handleError);
@@ -21,13 +21,16 @@ class HttpService {
     private handleError(error: AxiosError) {
         return Promise.reject(error);
     }
-    get<T>(endpoint: string, queryParams: Object): Promise<T> {
+    get<T = any>(endpoint: string, queryParams?: Object): Promise<T> {
         return this.service.get(endpoint, {
             params: queryParams,
         });
     }
-    post<T>(endpoint: string, data: any): Promise<T> {
+    post<T = any>(endpoint: string, data: any): Promise<T> {
         return this.service.post(endpoint, data);
+    }
+    put<T = any>(endpoint: string, data: any): Promise<T> {
+        return this.service.put(endpoint, data);
     }
 }
 

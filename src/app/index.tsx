@@ -1,9 +1,10 @@
 import { TOKEN_KEY } from 'constants/global';
 import { IAppState } from 'shared/models/store.model';
-import React, { Suspense, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppRoutes from '../routes';
 import { LogoutAction, NotAuthAction, VerifyTokenAction } from 'store/actions/auth.action';
+import { http } from 'shared/libs';
 
 interface IAppProps {}
 
@@ -14,19 +15,20 @@ const App: React.FC<IAppProps> = () => {
     let timerId = useRef<undefined | number>();
     React.useEffect(() => {
         if (isAuth && user) {
+            http.registerBearerToken(token);
             const timeToExpired = user.exp * 1000 - Date.now();
             timerId.current = setTimeout(() => {
                 localStorage.removeItem(TOKEN_KEY);
-                dispatch({ ...new LogoutAction() });
+                dispatch(new LogoutAction());
                 console.log('%c Auto Logout!', 'color: red');
             }, timeToExpired);
             return;
         }
         if (!!token && !isAuth) {
-            dispatch({ ...new VerifyTokenAction(token) });
+            dispatch(new VerifyTokenAction(token));
         }
         if (!token) {
-            dispatch({ ...new NotAuthAction() });
+            dispatch(new NotAuthAction());
         }
         if (!isAuth && timerId) {
             clearTimeout(timerId.current);

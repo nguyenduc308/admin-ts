@@ -1,0 +1,19 @@
+.list {
+    margin-top: 1rem;
+    margin-right: 1rem;
+}
+.add_new {
+    padding: 2rem;
+    background-color: #fff;
+    position: absolute;
+    top: 100px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px grey;
+}
+.add_new__bottom {
+    display: flex;
+    justify-content: flex-end;
+}
+.button_add {
+    margin-right: 1rem;
+}

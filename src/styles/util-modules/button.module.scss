@@ -24,6 +24,15 @@
     background-image: linear-gradient(rgb(19, 170, 82), rgb(24, 150, 76));
     box-shadow: rgb(21, 130, 66) 0px -1px 0px inset;
 }
+
+.btn_secondary {
+    @include btn();
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(51, 53, 51);
+    background-color: rgb(51, 53, 51);
+    background-image: linear-gradient(rgb(51, 53, 51), rgb(51, 53, 51));
+    box-shadow: rgb(51, 53, 51) 0px -1px 0px inset;
+}
 .btn_disabled {
     @include btn();
     border: 1px solid rgb(184, 196, 194);

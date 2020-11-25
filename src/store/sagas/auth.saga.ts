@@ -15,9 +15,9 @@ function* loginFlow(action: LoginRequestAction) {
         const { access_token } = yield call(loginApi, action.payload);
         localStorage.setItem(TOKEN_KEY, access_token);
         const user = jwt_decode(access_token);
-        yield put({ ...new LoginSuccessAction({ access_token, user }) });
+        yield put(new LoginSuccessAction({ access_token, user }));
     } catch (error) {
-        yield put({ ...new LoginFailAction() });
+        yield put(new LoginFailAction());
     }
 }
 
@@ -26,10 +26,10 @@ function* verifyToken(action: VerifyTokenAction) {
         const { access_token } = yield call(verifyTokenApi, action.payload);
         const user = jwt_decode(access_token);
         yield delay(800);
-        yield put({ ...new LoginSuccessAction({ access_token, user }) });
+        yield put(new LoginSuccessAction({ access_token, user }));
     } catch (error) {
         localStorage.removeItem(TOKEN_KEY);
-        yield put({ ...new LoginFailAction() });
+        yield put(new LoginFailAction());
     }
 }
 

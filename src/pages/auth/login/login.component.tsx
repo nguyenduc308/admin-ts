@@ -35,7 +35,7 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
             // console.log(e);
         },
         onSubmit: (values, action) => {
-            dispatch({ ...new LoginRequestAction(values) });
+            dispatch(new LoginRequestAction(values));
         },
     });
     return (
