@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
 import modalStyles from './modal.module.scss';
 const modalRoot = document.getElementById('modal');

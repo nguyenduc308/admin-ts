@@ -1,64 +1,28 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import classNames from 'classnames';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { IAppState } from 'shared/models/store.model';
-import { CreateCategoryRequestAction, FetchCategoriesAction } from 'store/actions/category.action';
 import CategoryItemComponent from './category-item/category-item.component';
-import { Modal } from 'shared/components/modal';
+import CreateOrUpdateCategoryComponent from './create-update-item/create-update-item.component';
 
 import btnStyles from 'styles/util-modules/button.module.scss';
-import inputStyles from 'styles/util-modules/input.module.scss';
 import blockStyles from 'styles/components/blocks.module.scss';
 import categoryStyles from './categories.module.scss';
-import { useFormik } from 'formik';
-import { ICreateCategoryRequest } from 'shared/models/category.model';
+import { ICategory } from 'shared/models/category.model';
 
 export interface ICategoriesProps {}
 const CategoriesComponent: React.FC<ICategoriesProps> = () => {
     const { list } = useSelector((state: IAppState) => state.category);
+    const [currentEditingCategory, setCurrentEditingCategory] = useState<ICategory | null>(null);
     const [isOpenModal, setOpenModal] = useState<boolean>(false);
-    const initialValues: ICreateCategoryRequest = {
-        name: '',
+    const openEditingCategory = (cat: ICategory) => {
+        setCurrentEditingCategory(cat);
+        setOpenModal(true);
     };
-    const validationSchema = Yup.object().shape({
-        name: Yup.string().required(),
-    });
-
-    const dispatch = useDispatch();
-    const [creatingCategory, setCreatingCategory] = useState(false);
-    const formik = useFormik({
-        initialValues,
-        validationSchema,
-        validate: (e) => {},
-        onSubmit: (values, action) => {
-            setCreatingCategory(true);
-            const dispatched = dispatch(new CreateCategoryRequestAction(values));
-            dispatched.onSuccess = function (data: any) {
-                setOpenModal(false);
-                setCreatingCategory(false);
-            };
-            dispatched.onError = function (data: any) {
-                console.log('Error');
-                setCreatingCategory(false);
-            };
-        },
-    });
-
-    useEffect(() => {
-        dispatch(new FetchCategoriesAction());
-    }, [dispatch]);
-    const createCategoryButtonClassName = useMemo(
-        () =>
-            classNames({
-                [categoryStyles.button_add]: true,
-                [btnStyles.btn_primary]: formik.dirty && formik.isValid,
-                [btnStyles.btn_disabled]: !(formik.dirty && formik.isValid) || creatingCategory,
-            }),
-        [formik.dirty, formik.isValid, creatingCategory],
-    );
-
+    const closeModal = () => {
+        setCurrentEditingCategory(null);
+        setOpenModal(false);
+    };
     return (
         <>
             <header className={blockStyles.header}>
@@ -73,46 +37,20 @@ const CategoriesComponent: React.FC<ICategoriesProps> = () => {
                 {list &&
                     list.data &&
                     list.data.map((category) => {
-                        return <CategoryItemComponent key={category._id} category={category} />;
+                        return (
+                            <CategoryItemComponent
+                                key={category._id}
+                                category={category}
+                                setCurrentCategoryEdit={openEditingCategory}
+                            />
+                        );
                     })}
             </div>
-
-            <Modal isOpen={isOpenModal}>
-                <div className={categoryStyles.add_new}>
-                    <form onSubmit={formik.handleSubmit}>
-                        <div className={inputStyles.form_group}>
-                            <input
-                                type="text"
-                                value={formik.values.name}
-                                onChange={formik.handleChange}
-                                name="name"
-                                autoComplete="off"
-                                placeholder="Input name"
-                                className={inputStyles.form_control}
-                            />
-                            {formik.touched && formik.errors.name && (
-                                <div className={inputStyles.error_message}>
-                                    {formik.errors.name.charAt(0).toUpperCase() +
-                                        formik.errors.name.slice(1)}
-                                </div>
-                            )}
-                        </div>
-
-                        <div className={categoryStyles.add_new__bottom}>
-                            <button className={createCategoryButtonClassName} type="submit">
-                                Create Now
-                            </button>
-                            <button
-                                className={btnStyles.btn_secondary}
-                                onClick={() => setOpenModal(false)}
-                                type="button"
-                            >
-                                Close
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </Modal>
+            <CreateOrUpdateCategoryComponent
+                isOpen={isOpenModal}
+                closeModal={() => closeModal()}
+                data={currentEditingCategory}
+            />
         </>
     );
 };

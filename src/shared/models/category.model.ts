@@ -8,6 +8,16 @@ export interface ICategory {
 export interface ICreateCategoryRequest {
     name: string;
 }
+export interface IUpdateCategoryRequest {
+    id: string;
+    data: {
+        name: string;
+    };
+}
+export interface ICreateOrUpdateResponse {
+    message: string;
+    res: ICategory;
+}
 export interface ICategoryMetadata {
     count: number;
     data: ICategory[];

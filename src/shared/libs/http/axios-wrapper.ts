@@ -32,6 +32,12 @@ class HttpService {
     put<T = any>(endpoint: string, data: any): Promise<T> {
         return this.service.put(endpoint, data);
     }
+    patch<T = any>(endpoint: string, data: any): Promise<T> {
+        return this.service.patch(endpoint, data);
+    }
+    delete<T = any>(endpoint: string): Promise<T> {
+        return this.service.delete(endpoint);
+    }
 }
 
 export default new HttpService();

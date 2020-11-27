@@ -9,11 +9,13 @@ import {
 } from 'store/actions/auth.action';
 import jwt_decode from 'jwt-decode';
 import { TOKEN_KEY } from 'constants/global';
+import { http } from 'shared/libs';
 
 function* loginFlow(action: LoginRequestAction) {
     try {
         const { access_token } = yield call(loginApi, action.payload);
         localStorage.setItem(TOKEN_KEY, access_token);
+        http.registerBearerToken(access_token);
         const user = jwt_decode(access_token);
         yield put(new LoginSuccessAction({ access_token, user }));
     } catch (error) {

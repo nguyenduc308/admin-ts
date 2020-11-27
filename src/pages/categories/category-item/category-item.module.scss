@@ -2,4 +2,24 @@
     display: flex;
     padding: 1rem;
     border: 1px solid #efefef;
+    display: flex;
+    justify-content: space-between;
+}
+.action_wrap {
+    display: flex;
+}
+.action_delete {
+    display: block;
+    background-color: red;
+    cursor: pointer;
+    color: #fff;
+    margin-right: 1rem;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    padding: 0.6rem 0.8rem;
+}
+.action_edit {
+    @extend .action_delete;
+    color: #333;
+    background-color: yellow;
 }
