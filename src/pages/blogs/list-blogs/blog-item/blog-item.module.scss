@@ -1,0 +1,34 @@
+.blog_item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #efefef;
+}
+.blog_item_actions {
+    display: flex;
+    font-size: 1.4rem;
+}
+.blog_item_delete {
+    display: block;
+    padding: 0.6rem 0.8rem;
+    border-radius: 4px;
+    background-color: #ccc;
+    cursor: pointer;
+    height: max-content;
+    &:hover {
+        background-color: red;
+        color: #fff;
+    }
+}
+.blog_item_edit {
+    display: block;
+    padding: 0.6rem 0.8rem;
+    border-radius: 4px;
+    background-color: #efefef;
+    margin-right: 1rem;
+    height: max-content;
+    cursor: pointer;
+    &:hover {
+        background-color: #ccc;
+    }
+}

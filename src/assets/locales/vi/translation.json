@@ -13,6 +13,9 @@
     "blogs": {
         "create": {
             "title": "Create new Blog"
+        },
+        "update": {
+            "title": "Update Blog"
         }
     }
 }

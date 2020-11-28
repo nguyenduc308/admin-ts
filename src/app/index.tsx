@@ -16,7 +16,7 @@ const App: React.FC<IAppProps> = () => {
     React.useEffect(() => {
         if (isAuth && user) {
             http.registerBearerToken(token);
-            const timeToExpired = user.exp * 1000 - Date.now();
+            const timeToExpired = user.exp * 1000 - Date.now() - 30000;
             timerId.current = setTimeout(() => {
                 localStorage.removeItem(TOKEN_KEY);
                 dispatch(new LogoutAction());

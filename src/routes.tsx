@@ -1,12 +1,9 @@
 import React, { Fragment } from 'react';
 import { IRoute } from 'shared/models/router.model';
 import * as paths from 'constants/paths';
-import { Login, Register } from 'pages/auth';
 import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from 'shared/HOC/private-route.component';
 import { uuid } from 'shared/helpers';
-import { CreateBlog, ListBlogs } from 'pages/blogs';
-import { Home } from 'pages/home';
 
 const routes: IRoute[] = [
     {
@@ -41,6 +38,13 @@ const routes: IRoute[] = [
         path: paths.BLOG_CREATE_PATH,
         exact: false,
         component: React.lazy(() => import('./pages/blogs/create-blog/create-blog.component')),
+        isPrivate: true,
+        uuid: uuid(),
+    },
+    {
+        path: paths.UPDATE_CREATE_PATH,
+        exact: false,
+        component: React.lazy(() => import('./pages/blogs/update-blog/update-blog.component')),
         isPrivate: true,
         uuid: uuid(),
     },
