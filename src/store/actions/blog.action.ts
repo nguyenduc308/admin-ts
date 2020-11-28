@@ -1,4 +1,9 @@
-import { IBlog, IBlogMetadata, ICreateBlogRequest } from 'shared/models/blog.model';
+import {
+    IBlog,
+    IBlogMetadata,
+    ICreateBlogRequest,
+    IUpdateBlogRequest,
+} from 'shared/models/blog.model';
 import { BaseAction } from 'shared/models/store.model';
 
 export enum EBlogActionTypes {
@@ -10,6 +15,8 @@ export enum EBlogActionTypes {
     DELETE_BLOG_FAILED = '[BLOG] DELETE failed',
     GET_BLOG_BY_SLUG_REQUEST = '[Blog] GET one request',
     GET_BLOG_BY_SLUG_SUCCESS = '[Blog] GET one success',
+    UPDATE_BLOG_REQUEST = '[Blog] UPDATE request',
+    UPDATE_BLOG_SUCCESS = '[Blog] UPDATE success',
 }
 // Get
 export class GetBlogsRequestAction extends BaseAction {
@@ -36,6 +43,9 @@ export class DeleteBlogRequestAction extends BaseAction<string> {
 export class DeleteBlogSuccessAction extends BaseAction<string> {
     readonly type = EBlogActionTypes.DELETE_BLOG_SUCCESS;
 }
+export class UpdateBlogRequestAction extends BaseAction<IUpdateBlogRequest> {
+    readonly type = EBlogActionTypes.UPDATE_BLOG_REQUEST;
+}
 
 export type BlogActions =
     | GetBlogsRequestAction
@@ -43,4 +53,5 @@ export type BlogActions =
     | CreateBlogRequestAction
     | DeleteBlogSuccessAction
     | GetBlogBySlugRequestAction
-    | GetBlogBySlugSuccessAction;
+    | GetBlogBySlugSuccessAction
+    | UpdateBlogRequestAction;

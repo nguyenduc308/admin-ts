@@ -1,5 +1,4 @@
 import { ILoginRequest, ILoginResponse } from 'shared/models/auth.model';
-import { Action } from 'redux';
 import { BaseAction } from 'shared/models/store.model';
 export enum EAuthActionTypes {
     VERIFY_TOKEN = '[Auth] Verify Token Request',

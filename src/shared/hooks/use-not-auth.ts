@@ -12,6 +12,6 @@ const useNotAuth = (): void => {
         if (isAuth && !isLoading) {
             history.push(HOMEPAGE_PATH);
         }
-    }, [isAuth, history]);
+    }, [isAuth, isLoading, history]);
 };
 export default useNotAuth;

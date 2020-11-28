@@ -12,6 +12,16 @@ export interface IBlog {
     categories: ICategory[];
     content: string;
 }
+export interface IUpdateBlogRequest {
+    id: string;
+    data: {
+        title?: string;
+        content?: string;
+        categories?: any[];
+        imageUrl?: string;
+        description?: string;
+    };
+}
 export interface ICreateBlogRequest {
     title: string;
     content: string;

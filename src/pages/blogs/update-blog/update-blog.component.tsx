@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import BlogFormComponent from 'shared/components/blog-form/blog-form.component';
-import { ICreateBlogRequest } from 'shared/models/blog.model';
-import { CreateBlogRequestAction, GetBlogBySlugRequestAction } from 'store/actions/blog.action';
+import { GetBlogBySlugRequestAction, UpdateBlogRequestAction } from 'store/actions/blog.action';
 
 import blockStyles from 'styles/components/blocks.module.scss';
 import updateBlogStyles from './update-blog.module.scss';
@@ -15,6 +14,8 @@ interface ICreateBlogProps {}
 
 const UpdateBlogComponent: React.FunctionComponent<ICreateBlogProps> = () => {
     const [t] = useTranslation();
+    const { slug } = useParams<{ slug: string }>();
+
     const dispatch = useDispatch();
     const initialMessage: {
         type: 'SUCCESS' | 'ERROR' | '';
@@ -46,8 +47,13 @@ const UpdateBlogComponent: React.FunctionComponent<ICreateBlogProps> = () => {
         }, 5000);
     };
 
-    const handleSubmit = (data: ICreateBlogRequest) => {
-        const dispatched = dispatch(new CreateBlogRequestAction(data));
+    const handleSubmit = (data: any) => {
+        const dispatched = dispatch(
+            new UpdateBlogRequestAction({
+                data,
+                id: currentBlog._id,
+            }),
+        );
         dispatched.onSuccess = handleSuccess;
         dispatched.onError = handleError;
     };
@@ -56,7 +62,6 @@ const UpdateBlogComponent: React.FunctionComponent<ICreateBlogProps> = () => {
         [updateBlogStyles.warning]: message.type === 'ERROR',
         [updateBlogStyles.message_area]: true,
     });
-    const { slug } = useParams<{ slug: string }>();
     useEffect(() => {
         dispatch(new GetBlogBySlugRequestAction(slug));
         return () => {

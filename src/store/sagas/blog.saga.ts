@@ -1,5 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { createBlogApi, deleteBlogApi, getBlogBySlugApi, getBlogsApi } from 'shared/apis/blog-api';
+import {
+    createBlogApi,
+    deleteBlogApi,
+    getBlogBySlugApi,
+    getBlogsApi,
+    updateBlogApi,
+} from 'shared/apis/blog-api';
 import { IBlogResponse, IOneBlogResponse } from 'shared/models/blog.model';
 import {
     CreateBlogRequestAction,
@@ -10,6 +16,7 @@ import {
     GetBlogBySlugSuccessAction,
     GetBlogsRequestAction,
     GetBlogsSuccessAction,
+    UpdateBlogRequestAction,
 } from 'store/actions/blog.action';
 import { DeleteCategorySuccessAction } from 'store/actions/category.action';
 
@@ -55,10 +62,23 @@ function* getBlogBySlugFlow(action: GetBlogBySlugRequestAction) {
         }
     }
 }
+function* updateBlogBySlugFlow(action: UpdateBlogRequestAction) {
+    try {
+        yield call(updateBlogApi, action.payload);
+        if (action.onSuccess) {
+            action.onSuccess();
+        }
+    } catch (error) {
+        if (action.onError) {
+            action.onError();
+        }
+    }
+}
 
 export function* blogWatcher() {
     yield takeLatest(EBlogActionTypes.GET_LIST_BLOGS_REQUEST, getBlogsFlow);
     yield takeLatest(EBlogActionTypes.CREATE_BLOG_REQUEST, createBlogFlow);
     yield takeLatest(EBlogActionTypes.DELETE_BLOG_REQUEST, deleteBlogFlow);
     yield takeLatest(EBlogActionTypes.GET_BLOG_BY_SLUG_REQUEST, getBlogBySlugFlow);
+    yield takeLatest(EBlogActionTypes.UPDATE_BLOG_REQUEST, updateBlogBySlugFlow);
 }
