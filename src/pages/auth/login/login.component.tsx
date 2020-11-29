@@ -41,7 +41,7 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
     return (
         <AuthPageWrapper>
             <FormAuthWrapper>
-                <h1>{t('auth.login.title')}</h1>
+                <h1 className="form-auth-title">{t('auth.login.title')}</h1>
                 <form onSubmit={formik.handleSubmit}>
                     <div className={inputStyle.form_group}>
                         <label htmlFor="email">Email</label>
@@ -58,6 +58,7 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
                     <div className={inputStyle.form_group}>
                         <label htmlFor="password">Password</label>
                         <input
+                            type="password"
                             className={inputStyle.form_control}
                             value={formik.values.password}
                             onChange={formik.handleChange}

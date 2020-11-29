@@ -38,7 +38,7 @@ const Register: React.FunctionComponent<IRegisterProps> = () => {
     return (
         <AuthPageWrapper>
             <FormAuthWrapper>
-                <h1>{t('auth.register.title')}</h1>
+                <h1 className="form-auth-title">{t('auth.register.title')}</h1>
                 <form onSubmit={formik.handleSubmit}>
                     <div className={inputStyle.form_group}>
                         <label htmlFor="email">Email</label>
@@ -55,6 +55,7 @@ const Register: React.FunctionComponent<IRegisterProps> = () => {
                         <input
                             className={inputStyle.form_control}
                             id="password"
+                            type="password"
                             name="password"
                             placeholder="Nhập mật khẩu"
                             autoComplete="off"
@@ -65,6 +66,7 @@ const Register: React.FunctionComponent<IRegisterProps> = () => {
                         <input
                             className={inputStyle.form_control}
                             id="confirm-password"
+                            type="password"
                             name="confirmPassword"
                             placeholder="Nhập lại mật khẩu"
                             autoComplete="off"

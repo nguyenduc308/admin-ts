@@ -64,8 +64,15 @@ const BlogFormComponent: React.FC<IBlogFormProps> = ({ submit, data }) => {
     const [categoriesSelected, setCategoriesSelected] = useState<string[]>([]);
 
     const [queryCategory, setQueryCategory] = useState('');
-    const handleSelectCategory = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-        const newSelectedCategories = [value, ...categoriesSelected];
+    const handleSelectCategory = ({
+        target: { checked, value },
+    }: React.ChangeEvent<HTMLInputElement>) => {
+        let newSelectedCategories: string[];
+        if (checked) {
+            newSelectedCategories = [value, ...categoriesSelected];
+        } else {
+            newSelectedCategories = categoriesSelected.filter((item) => item !== value);
+        }
         setCategoriesSelected([...new Set(newSelectedCategories)]);
     };
     let timeIdRef = useRef<number | null>(null);
@@ -130,7 +137,7 @@ const BlogFormComponent: React.FC<IBlogFormProps> = ({ submit, data }) => {
         }
     }, [data]);
     return (
-        <>
+        <div className={blogFormStyle.wrapper}>
             <div className={blockStyles.content}>
                 <form onSubmit={formik.handleSubmit} className={blogFormStyle.form}>
                     <div className={blogFormStyle.formContent}>
@@ -256,7 +263,7 @@ const BlogFormComponent: React.FC<IBlogFormProps> = ({ submit, data }) => {
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     );
 };
 export default BlogFormComponent;

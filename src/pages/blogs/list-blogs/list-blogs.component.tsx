@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { IAppState } from 'shared/models/store.model';
 import { DeleteBlogRequestAction, GetBlogsRequestAction } from 'store/actions/blog.action';
 import BlogItemComponent from './blog-item/blog-item.component';
-import btnStyles from 'styles/util-modules/button.module.scss';
-import blockStyles from 'styles/components/blocks.module.scss';
+
 import { BLOG_CREATE_PATH } from 'constants/paths';
 
+import btnStyles from 'styles/util-modules/button.module.scss';
+import blockStyles from 'styles/components/blocks.module.scss';
+import listBlogsStyles from './list-blogs.module.scss';
 interface IListBlogsProps {}
 
 const ListBlogsComponent: React.FC<IListBlogsProps> = () => {
@@ -20,21 +22,25 @@ const ListBlogsComponent: React.FC<IListBlogsProps> = () => {
         dispatch(new DeleteBlogRequestAction(id));
     };
     return (
-        <>
+        <div className={listBlogsStyles.wrapper}>
             <header className={blockStyles.header}>
                 <h2>Blogs</h2>
             </header>
-            <div>
+            <div className={listBlogsStyles.action_area}>
                 <Link to={BLOG_CREATE_PATH} className={btnStyles.btn_primary}>
                     Add New
                 </Link>
             </div>
-            {list &&
-                list.data &&
-                list.data.map((blog) => {
-                    return <BlogItemComponent key={blog._id} blog={blog} deleteBlog={deleteBlog} />;
-                })}
-        </>
+            <div className={listBlogsStyles.content}>
+                {list &&
+                    list.data &&
+                    list.data.map((blog) => {
+                        return (
+                            <BlogItemComponent key={blog._id} blog={blog} deleteBlog={deleteBlog} />
+                        );
+                    })}
+            </div>
+        </div>
     );
 };
 export default ListBlogsComponent;

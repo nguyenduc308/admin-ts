@@ -24,7 +24,7 @@ const CategoriesComponent: React.FC<ICategoriesProps> = () => {
         setOpenModal(false);
     };
     return (
-        <>
+        <div className={categoryStyles.wrapper}>
             <header className={blockStyles.header}>
                 <h2>Categories</h2>
             </header>
@@ -51,7 +51,7 @@ const CategoriesComponent: React.FC<ICategoriesProps> = () => {
                 closeModal={() => closeModal()}
                 data={currentEditingCategory}
             />
-        </>
+        </div>
     );
 };
 export default CategoriesComponent;
