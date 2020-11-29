@@ -20,8 +20,8 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
     useNotAuth();
     const [t] = useTranslation();
     const initialValues: ILoginRequest = {
-        email: 'duc.lux47@gmail.com',
-        password: '123123',
+        email: '',
+        password: '',
     };
     const dispatch = useDispatch();
     const validationSchema = Yup.object().shape({
