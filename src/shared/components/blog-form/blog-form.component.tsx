@@ -247,8 +247,8 @@ const BlogFormComponent: React.FC<IBlogFormProps> = ({ submit, data }) => {
                                         className={inputStyle.form_control}
                                         value={formik.values.imageUrl}
                                         onChange={formik.handleChange}
-                                        id="query-category"
-                                        name="queryCategory"
+                                        id="imageUrl"
+                                        name="imageUrl"
                                         placeholder="Nhập link hình ảnh"
                                         autoComplete="off"
                                     />

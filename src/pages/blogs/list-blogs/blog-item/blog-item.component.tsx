@@ -12,6 +12,12 @@ const BlogItemComponent: React.FC<IBlogItemProps> = ({ blog, deleteBlog }) => {
         <>
             <div className={blogItemStyles.blog_item}>
                 <div>{blog.title}</div>
+                <div>
+                    {blog.categories &&
+                        blog.categories.map((category) => {
+                            return <span key={category._id}>{category.name}, </span>;
+                        })}
+                </div>
                 <div className={blogItemStyles.blog_item_actions}>
                     <Link to={`/blogs/${blog.slug}`} className={blogItemStyles.blog_item_edit}>
                         Edit
